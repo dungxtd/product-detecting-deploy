@@ -1,0 +1,446 @@
+[
+    {
+        "Key": "BANH_AFC",
+        "Word": "bánh AFC"
+    },
+    {
+        "Key": "BANH_AN",
+        "Word": "bánh AN"
+    },
+    {
+        "Key": "BANH_BON",
+        "Word": "bánh BON"
+    },
+    {
+        "Key": "BANH_CHOCOPIE",
+        "Word": "bánh CHOCOPIE"
+    },
+    {
+        "Key": "BANH_COFFETOY",
+        "Word": "bánh COFFETOY"
+    },
+    {
+        "Key": "BANH_COSY",
+        "Word": "bánh COSY"
+    },
+    {
+        "Key": "BANH_CUSTAS",
+        "Word": "bánh CUSTAS"
+    },
+    {
+        "Key": "BANH_DANISA",
+        "Word": "bánh DANISA"
+    },
+    {
+        "Key": "BANH_GOODY",
+        "Word": "bánh GOODY"
+    },
+    {
+        "Key": "BANH_GOUTE",
+        "Word": "bánh GOUTE"
+    },
+    {
+        "Key": "BANH_HURA",
+        "Word": "bánh HURA"
+    },
+    {
+        "Key": "BANH_ICHI",
+        "Word": "bánh ICHI"
+    },
+    {
+        "Key": "BANH_KITKAT",
+        "Word": "bánh KITKAT"
+    },
+    {
+        "Key": "BANH_MARINEBOY",
+        "Word": "bánh MARINEBOY"
+    },
+    {
+        "Key": "BANH_NABATI",
+        "Word": "bánh NABATI"
+    },
+    {
+        "Key": "BANH_OSTAR",
+        "Word": "bánh OSTAR"
+    },
+    {
+        "Key": "BANH_VIFON",
+        "Word": "bánh VIFON"
+    },
+    {
+        "Key": "BCS_DUREX",
+        "Word": "BCS DUREX"
+    },
+    {
+        "Key": "BIA_LAGER",
+        "Word": "BIA LAGER"
+    },
+    {
+        "Key": "BIA_TIGER",
+        "Word": "BIA TIGER"
+    },
+    {
+        "Key": "CAFE_CAFEVIET",
+        "Word": "CAFE CAFEVIET"
+    },
+    {
+        "Key": "CAFE_G",
+        "Word": "CAFE G"
+    },
+    {
+        "Key": "CAFE_HUUKHANH",
+        "Word": "CAFE HUUKHANH"
+    },
+    {
+        "Key": "CAFE_NESCAFE",
+        "Word": "CAFE NESCAFE"
+    },
+    {
+        "Key": "CAFE_TRUNGNGUYEN",
+        "Word": "CAFE TRUNGNGUYEN"
+    },
+    {
+        "Key": "CAFE_VINACAFE",
+        "Word": "CAFE VINACAFE"
+    },
+    {
+        "Key": "CAFE_WAKEUP",
+        "Word": "CAFE WAKEUP"
+    },
+    {
+        "Key": "DAUAN_MARVELA",
+        "Word": "dầu ăn MARVELA"
+    },
+    {
+        "Key": "DAUAN_SIMPLY",
+        "Word": "dầu ăn SIMPLY"
+    },
+    {
+        "Key": "DAUGOI_BOKET",
+        "Word": "dầu gội BOKET"
+    },
+    {
+        "Key": "DAUGOI_CLEARMEN",
+        "Word": "dầu gội CLEARMEN"
+    },
+    {
+        "Key": "DAUGOI_CLEAR",
+        "Word": "dầu gội CLEAR"
+    },
+    {
+        "Key": "DAUGOI_DOVE",
+        "Word": "dầu gội DOVE"
+    },
+    {
+        "Key": "DAUGOI_FRESH",
+        "Word": "dầu gội FRESH"
+    },
+    {
+        "Key": "DAUGOI_H-S",
+        "Word": "dầu gội H-S"
+    },
+    {
+        "Key": "DAUGOI_LIFEBOY",
+        "Word": "dầu gội LIFEBOY"
+    },
+    {
+        "Key": "DAUGOI_PANTENE",
+        "Word": "dầu gội PANTENE"
+    },
+    {
+        "Key": "DAUGOI_REJOICE",
+        "Word": "dầu gội REJOICE"
+    },
+    {
+        "Key": "DAUGOI_SUNSIK",
+        "Word": "dầu gội SUNSIK"
+    },
+    {
+        "Key": "DAUGOI_XMEN",
+        "Word": "dầu gội XMEN"
+    },
+    {
+        "Key": "DOHOP_CAMOI",
+        "Word": "đồ hộp CAMOI"
+    },
+    {
+        "Key": "DOHOP_VISSAN",
+        "Word": "đồ hộp VISSAN"
+    },
+    {
+        "Key": "GASAY_DOXACO",
+        "Word": "gà sấy DOXACO"
+    },
+    {
+        "Key": "GASAY_TNP",
+        "Word": "gà sấy TNP"
+    },
+    {
+        "Key": "GAXE_DOXACO",
+        "Word": "gà xé DOXACO"
+    },
+    {
+        "Key": "GEL_GATSBY",
+        "Word": "GEL GATSBY"
+    },
+    {
+        "Key": "GEL_ROMANO",
+        "Word": "GEL ROMANO"
+    },
+    {
+        "Key": "HUTIEU_VIFON",
+        "Word": "hủ tiếu VIFON"
+    },
+    {
+        "Key": "KEMDANHRANG_COLGATE",
+        "Word": "kem đánh răng COLGATE"
+    },
+    {
+        "Key": "KEO_DOUBLEMINT",
+        "Word": "kẹo DOUBLEMINT"
+    },
+    {
+        "Key": "KEO_KOPIKO",
+        "Word": "kẹo KOPIKO"
+    },
+    {
+        "Key": "KEO_MENTOS",
+        "Word": "kẹo MENTOS"
+    },
+    {
+        "Key": "KEO_PLAY",
+        "Word": "kẹo PLAY"
+    },
+    {
+        "Key": "LAUSAN_SUNLIGHT",
+        "Word": "lau sàn SUNLIGHT"
+    },
+    {
+        "Key": "MAMRUOC_HUE",
+        "Word": "mắm ruốc HUE"
+    },
+    {
+        "Key": "MIEN_ACECOOK",
+        "Word": "mìến ACECOOK"
+    },
+    {
+        "Key": "MIEN_PHUHUONG",
+        "Word": "mìến PHUHUONG"
+    },
+    {
+        "Key": "MI_HAOHAO",
+        "Word": "mì HAOHAO"
+    },
+    {
+        "Key": "MI_LAUTHAI",
+        "Word": "mì LAUTHAI"
+    },
+    {
+        "Key": "MI_OMACHI",
+        "Word": "mì OMACHI"
+    },
+    {
+        "Key": "MI_VIFON",
+        "Word": "mì VIFON"
+    },
+    {
+        "Key": "MUOIOT_TOXACO",
+        "Word": "muối ớt TOXACO"
+    },
+    {
+        "Key": "NGUCOC_BFAST",
+        "Word": "ngũ cốc BFAST"
+    },
+    {
+        "Key": "NGUCOC_NUTI",
+        "Word": "ngũ cốc NUTI"
+    },
+    {
+        "Key": "NUOCCAM_TWISTER",
+        "Word": "nước cam TWISTER"
+    },
+    {
+        "Key": "NUOCHOA_XMEN",
+        "Word": "nước hoa XMEN"
+    },
+    {
+        "Key": "NUOCMAM_HUNGTHINH",
+        "Word": "nước mắm HUNGTHINH"
+    },
+    {
+        "Key": "NUOCTUONG_TTT",
+        "Word": "nước tương TTT"
+    },
+    {
+        "Key": "NUOC_AQUAFINA",
+        "Word": "nước AQUAFINA"
+    },
+    {
+        "Key": "NUOC_PEPSI",
+        "Word": "nước PEPSI"
+    },
+    {
+        "Key": "NUOC_REDBULL",
+        "Word": "nước REDBULL"
+    },
+    {
+        "Key": "NUOC_STING",
+        "Word": "nước STING"
+    },
+    {
+        "Key": "NUOC_WAKEUP",
+        "Word": "nước WAKEUP"
+    },
+    {
+        "Key": "NUOC_WARRIOR",
+        "Word": "nước WARRIOR"
+    },
+    {
+        "Key": "RUACHEN_SUNLIGHT",
+        "Word": "rửa chén SUNLIGHT"
+    },
+    {
+        "Key": "RUATAY_LIFEBOY",
+        "Word": "rửa tay LIFEBOY"
+    },
+    {
+        "Key": "SNACK_INDOCHIPS",
+        "Word": "SNACK INDOCHIPS"
+    },
+    {
+        "Key": "SNACK_POCA",
+        "Word": "SNACK POCA"
+    },
+    {
+        "Key": "SUADAC_DAIRYCHAMP",
+        "Word": "sữa đặc DAIRYCHAMP"
+    },
+    {
+        "Key": "SUADAC_ONGTHO",
+        "Word": "sữa đặc ông thọ"
+    },
+    {
+        "Key": "SUADAC_VINAMILK",
+        "Word": "sữa đặc VINAMILK"
+    },
+    {
+        "Key": "SUATAM_FRESH",
+        "Word": "sữa tắm FRESH"
+    },
+    {
+        "Key": "SUATAM_HAZELINE",
+        "Word": "sữa tắm HAZELINE"
+    },
+    {
+        "Key": "SUATAM_LIFEBOY",
+        "Word": "sữa tắm LIFEBOY"
+    },
+    {
+        "Key": "SUATAM_ROMANO",
+        "Word": "sữa tắm ROMANO"
+    },
+    {
+        "Key": "SUATAM_VASELINE",
+        "Word": "sữa tắm VASELINE"
+    },
+    {
+        "Key": "SUATAM_XMEN",
+        "Word": "sữa tắm XMEN"
+    },
+    {
+        "Key": "SUA_LADY",
+        "Word": "sữa LADY"
+    },
+    {
+        "Key": "SUA_MILKMILK",
+        "Word": "sữa MILKMILK"
+    },
+    {
+        "Key": "SUA_MILO",
+        "Word": "sữa MILO"
+    },
+    {
+        "Key": "SUA_OVALTINE",
+        "Word": "sữa OVALTINE"
+    },
+    {
+        "Key": "SUA_SUSU",
+        "Word": "sữa SUSU"
+    },
+    {
+        "Key": "SUCMIENG_LISTERINE",
+        "Word": "súc miệng LISTERINE"
+    },
+    {
+        "Key": "TAYRUA_DUCK",
+        "Word": "tẩy rửa DUCK"
+    },
+    {
+        "Key": "TAYRUA_VIM",
+        "Word": "tẩy rửa VIM"
+    },
+    {
+        "Key": "TRA_C",
+        "Word": "trà C"
+    },
+    {
+        "Key": "TRA_FUZETEA",
+        "Word": "trà FUZETEA"
+    },
+    {
+        "Key": "TRA_HOACUC",
+        "Word": "trà hoa cúc"
+    },
+    {
+        "Key": "TRA_KODO",
+        "Word": "trà KODO"
+    },
+    {
+        "Key": "TRA_LIPTON",
+        "Word": "trà LIPTON"
+    },
+    {
+        "Key": "TRA_TEA-",
+        "Word": "trà TEA plus"
+    },
+    {
+        "Key": "XITCONTRUNG_JUMBO",
+        "Word": "xịt côn trùng JUMBO"
+    },
+    {
+        "Key": "XITCONTRUNG_KINGSTAR",
+        "Word": "xịt côn trùng KINGSTAR"
+    },
+    {
+        "Key": "XITCONTRUNG_MENG",
+        "Word": "xịt côn trùng MENG"
+    },
+    {
+        "Key": "XITCONTRUNG_RAID",
+        "Word": "xịt côn trùng RAID"
+    },
+    {
+        "Key": "XITPHONG_SPRING",
+        "Word": "xịt phòng SPRING"
+    },
+    {
+        "Key": "XUCXICH_BEKHOE",
+        "Word": "xúc xích BEKHOE"
+    },
+    {
+        "Key": "XUCXICH_VISSAN",
+        "Word": "xúc xích VISSAN"
+    },
+    {
+        "Key": "YEN_KHANHHOA",
+        "Word": "yến KHANHHOA"
+    },
+    {
+        "Key": "YEN_QUEENEST",
+        "Word": "yến QUEENEST"
+    },
+    {
+        "Key": "YEN_SAVINEST",
+        "Word": "yến SAVINEST"
+    }
+]
