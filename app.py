@@ -60,8 +60,8 @@ if torch.cuda.is_available():
 
 
 
-def pose_model(img_base64):
-    np_arr =  np.fromstring(base64.b64decode(img_base64), np.uint8)
+def pose_model(img_bytes):
+    np_arr = np.fromstring(img_bytes, np.uint8)
     # cv2.IMREAD_COLOR in OpenCV 3.1
     img0 = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     # colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
@@ -101,20 +101,77 @@ def pose_model(img_base64):
             s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
         for *xyxy, conf, cls in reversed(det):
-            box = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist() 
+            box = [int(e_.item()) for e_ in xyxy]
             res_detected.append({
                 "label": f'{names[int(cls)]}',
                 "value": float(f'{conf:.2f}'),
-                "box": box
+                "box": [int((box[0] + box[2])/2), int((box[1] + box[3])/2)]
             })
     if len(res_detected) > 0:
         max_precision = res_detected[0]
         for node in res_detected:
             if node["value"] > max_precision["value"]:
                 max_precision = node
+        index = 1
+        for node in res_detected:
+            if node["label"] == max_precision["label"]:
+                node["index"] = 0
+            else:
+                node["index"] = index
+                index = index + 1
     else:
         max_precision = None
     return {"max": max_precision, "detected": res_detected}
+
+def pose_model_to_image(img_bytes):
+    np_arr = np.fromstring(img_bytes, np.uint8)
+    # cv2.IMREAD_COLOR in OpenCV 3.1
+    img0 = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+    # colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    half = device.type != 'cpu'
+    img_sz = opt['img-size']
+    stride = int(model.stride.max())  # model stride
+    img = letterbox(img0, img_sz, stride=stride)[0]
+    img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
+    img = np.ascontiguousarray(img)
+    img = torch.from_numpy(img).to(device)
+    img = img.half() if half else img.float()  # uint8 to fp16/32
+    img /= 255.0  # 0 - 255 to 0.0 - 1.0
+    if img.ndimension() == 3:
+        img = img.unsqueeze(0)
+    # Inference
+    t1 = time_synchronized()
+    pred = model(img, augment=False)[0]
+    # Apply NMS
+    classes = None
+    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    if opt['classes']:
+        classes = []
+        for class_name in opt['classes']:
+            classes.append(opt['classes'].index(class_name))
+    pred = non_max_suppression(
+        pred, opt['conf-thres'], opt['iou-thres'], classes=classes, agnostic=False)
+    res_detected = []
+    gn = torch.tensor(img.shape)[[1, 0, 1, 0]]
+    for i, det in enumerate(pred):
+        s = ''
+        s += '%gx%g ' % img.shape[2:]  # print string
+        if len(det):
+            det[:, :4] = scale_coords(
+                img.shape[2:], det[:, :4], img0.shape).round()
+
+        for c in det[:, -1].unique():
+            n = (det[:, -1] == c).sum()  # detections per class
+            s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+
+        for *xyxy, conf, cls in reversed(det):
+            label = f'{names[int(cls)]} {conf:.2f}'
+            plot_one_box(xyxy, img0, label=label, color=colors[int(cls)], line_thickness=3)
+    # Write output image (object detection output)
+    fileName = 'output' + str(len(os.listdir("static/output"))) + '.jpg'
+    output_image_path = os.path.join("static/output", fileName)
+    cv2.imwrite(output_image_path, img0)
+    return fileName
 
 
 def query_firebase(val):
@@ -125,6 +182,15 @@ def query_firebase(val):
         docs = query_ref.get()
         if (len(docs) > 0):
             return docs[0]._data
+    return None
+
+def query_text_firebase(text):
+    max_precision_label = re.sub(r"_[0-9]+", '', text)
+# Create a query against the collection
+    query_ref = collection.where('Key', '==', max_precision_label)
+    docs = query_ref.get()
+    if (len(docs) > 0):
+        return docs[0]._data
     return None
 # Health check route
 @app.route("/isalive")
@@ -137,19 +203,49 @@ def is_alive():
 @app.route("/", methods=["GET", "POST"])
 def predict():
     if request.method == "POST":
-        file = request.form.get("file")
-        val = pose_model(file)
+        if "file" not in request.files:
+            return redirect(request.url)
+        file = request.files["file"]
+        if not file:
+            return
+        img_bytes = file.read()
+        val = pose_model(img_bytes)
         text = query_firebase(val)
         products = request_search(text)
         return Response(
-        response=json.dumps({
-            "productsSuggested": products,
-            "productsName": text,
-            "objectDetected": val,
-        }),
-        status=200,
-        mimetype="application/json"
-    )
+            response=json.dumps({
+                "productsSuggested": products,
+                "productsName": text,
+                "objectDetected": val,}),
+            status=200,
+            mimetype="application/json")
+    return render_template("index.html")
+
+@app.route("/query", methods=["GET", "POST"])
+def query():
+    if request.method == "GET":
+        key = request.args.get('key')
+        text = query_text_firebase(key)
+        products = request_search(text)
+        return Response(
+            response=json.dumps({
+                "productsSuggested": products,
+                "productsName": text,}),
+            status=200,
+            mimetype="application/json")
+    return render_template("index.html")
+
+@app.route("/predict", methods=["GET", "POST"])
+def predict_image():
+    if request.method == "POST":
+        if "file" not in request.files:
+            return redirect(request.url)
+        file = request.files["file"]
+        if not file:
+            return
+        img_bytes = file.read()
+        full_filename = os.path.join("static/output", (pose_model_to_image(img_bytes)))
+        return render_template("result.html", user_image = full_filename)
     return render_template("index.html")
 
 
@@ -160,4 +256,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # debug=True causes Restarting with stat
-    app.run(debug=True, host="0.0.0.0", port=8082)
+    app.run(debug=True, host="0.0.0.0", port=8080)
