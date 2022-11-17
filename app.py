@@ -102,11 +102,12 @@ def pose_model(img_bytes):
 
         for *xyxy, conf, cls in reversed(det):
             box = [int(e_.item()) for e_ in xyxy]
-            res_detected.append({
-                "label": f'{names[int(cls)]}',
-                "value": float(f'{conf:.2f}'),
-                "box": [int((box[0] + box[2])/2), int((box[1] + box[3])/2)]
-            })
+            if(float(f'{conf:.2f}') > 0.15):
+                res_detected.append({
+                    "label": f'{names[int(cls)]}',
+                    "value": float(f'{conf:.2f}'),
+                    "box": [int((box[0] + box[2])/2), int((box[1] + box[3])/2)]
+                })
     if len(res_detected) > 0:
         max_precision = res_detected[0]
         for node in res_detected:
