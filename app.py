@@ -24,12 +24,19 @@ from operator import attrgetter
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import storage, initialize_app
 from search_request import request_search
-import base64
-from os import environ as env
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+import uuid
+import datetime
 
+cred = credentials.Certificate("serviceAccountKey.json")
+# firebase_admin.initialize_app(cred)
+initialize_app(cred, {'storageBucket': 'supermarket-product-detecting.appspot.com'})
+# Init firebase with your credentials
+bucket = storage.bucket()
+db = firestore.client()
+collection = db.collection("product_key_search")
+collectionImage = db.collection("history")
 opt = {
     # Path to weights file default weights are for nano model
     "weights": "train_model/last.pt",
@@ -41,9 +48,6 @@ opt = {
     "precision": 0
 }
 
-
-db = firestore.client()
-collection = db.collection("product_key_search")
 app = Flask(__name__)
 
 # load model
@@ -52,7 +56,7 @@ model = torch.load(opt['weights'], map_location=device)['model']
 names = model.module.names if hasattr(model, 'module') else model.names
 # Put in inference mode
 model.float().eval()
-
+stride = int(model.stride.max()) 
 if torch.cuda.is_available():
     # half() turns predictions into float16 tensors
     # which significantly lowers inference time
@@ -67,7 +71,6 @@ def pose_model(img_bytes):
     # colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
     half = device.type != 'cpu'
     img_sz = opt['img-size']
-    stride = int(model.stride.max())  # model stride
     img = letterbox(img0, img_sz, stride=stride)[0]
     img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
     img = np.ascontiguousarray(img)
@@ -193,6 +196,22 @@ def query_text_firebase(text):
     if (len(docs) > 0):
         return docs[0]._data
     return None
+
+def saveImageFirebase(image, text):
+    filename = str(uuid.uuid4()) + ".png"
+    temp_location = '/tmp/' + filename
+    with open(temp_location, "wb") as f:        
+        f.write(image)
+    blob = bucket.blob("userUpload/" + filename)
+    blob.upload_from_filename(temp_location)
+    # Opt : if you want to make public access from the URL
+    blob.make_public()
+    collectionImage.add({
+        "uri": blob.public_url,
+        "time": datetime.datetime.now(),
+        "text" : text
+        })
+
 # Health check route
 @app.route("/isalive")
 def is_alive():
@@ -212,6 +231,7 @@ def predict():
         img_bytes = file.read()
         val = pose_model(img_bytes)
         text = query_firebase(val)
+        saveImageFirebase(img_bytes, text)
         products = request_search(text)
         return Response(
             response=json.dumps({
@@ -251,10 +271,10 @@ def predict_image():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Flask app exposing yolov7 models")
-    parser.add_argument("--port", default=8080, type=int, help="port number")
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(
+    #     description="Flask app exposing yolov7 models")
+    # parser.add_argument("--port", default=8080, type=int, help="port number")
+    # args = parser.parse_args()
 
     # debug=True causes Restarting with stat
     app.run(debug=True, host="0.0.0.0", port=8080)
