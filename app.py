@@ -25,7 +25,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import storage, initialize_app
-from search_request import request_search
+from google_shopping_search import request_search
 import uuid
 import datetime
 
@@ -233,6 +233,7 @@ def predict():
         text = query_firebase(val)
         saveImageFirebase(img_bytes, text)
         products = request_search(text)
+        print(text)
         return Response(
             response=json.dumps({
                 "productsSuggested": products,
