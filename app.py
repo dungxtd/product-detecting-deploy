@@ -11,6 +11,7 @@ import cv2
 import torch
 import numpy as np
 from flask import Flask, render_template, request, redirect, Response, json
+from google_image_search import google_reverse_image
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
@@ -105,27 +106,27 @@ def pose_model(img_bytes):
 
         for *xyxy, conf, cls in reversed(det):
             box = [int(e_.item()) for e_ in xyxy]
-            if(float(f'{conf:.2f}') > 0.15):
+            if(float(f'{conf:.2f}') > 0.4):
                 res_detected.append({
                     "label": f'{names[int(cls)]}',
                     "value": float(f'{conf:.2f}'),
                     "box": [int((box[0] + box[2])/2), int((box[1] + box[3])/2)]
                 })
-    if len(res_detected) > 0:
-        max_precision = res_detected[0]
-        for node in res_detected:
-            if node["value"] > max_precision["value"]:
-                max_precision = node
-        index = 1
-        for node in res_detected:
-            if node["label"] == max_precision["label"]:
-                node["index"] = 0
-            else:
-                node["index"] = index
-                index = index + 1
-    else:
-        max_precision = None
-    return {"max": max_precision, "detected": res_detected}
+        if len(res_detected) > 0:
+            max_precision = res_detected[0]
+            for node in res_detected:
+                if node["value"] > max_precision["value"]:
+                    max_precision = node
+            index = 1
+            for node in res_detected:
+                if node["label"] == max_precision["label"]:
+                    node["index"] = 0
+                else:
+                    node["index"] = index
+                    index = index + 1
+        else:
+            max_precision = None
+        return {"max": max_precision, "detected": res_detected}
 
 def pose_model_to_image(img_bytes):
     np_arr = np.fromstring(img_bytes, np.uint8)
@@ -211,6 +212,7 @@ def saveImageFirebase(image, text):
         "time": datetime.datetime.now(),
         "text" : text
         })
+    return blob.public_url
 
 # Health check route
 @app.route("/isalive")
@@ -231,14 +233,16 @@ def predict():
         img_bytes = file.read()
         val = pose_model(img_bytes)
         text = query_firebase(val)
-        saveImageFirebase(img_bytes, text)
+        historyUrl = saveImageFirebase(img_bytes, text)
         products = request_search(text)
-        print(text)
+        print(val)
         return Response(
             response=json.dumps({
                 "productsSuggested": products,
                 "productsName": text,
-                "objectDetected": val,}),
+                "objectDetected": val,
+                "historyUrl": historyUrl
+                }),
             status=200,
             mimetype="application/json")
     return render_template("index.html")
@@ -270,6 +274,17 @@ def predict_image():
         return render_template("result.html", user_image = full_filename)
     return render_template("index.html")
 
+@app.route("/reverse_image", methods=["GET", "POST"])
+def reverse_image():
+    if request.method == "GET":
+        url = request.args.get('url')
+        results = google_reverse_image(url)
+        return Response(
+            response=json.dumps({
+                "productsSuggested": results}),
+            status=200,
+            mimetype="application/json")
+    return render_template("index.html")
 
 if __name__ == "__main__":
     # parser = argparse.ArgumentParser(

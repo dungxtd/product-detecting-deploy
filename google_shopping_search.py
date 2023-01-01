@@ -103,7 +103,7 @@ def request_search(query):
                     # 'price': product_price,
                     "origin": product_origin,
                     'price-text': product_price_text,
-                    'source': product_source,
+                    'thumbnail': product_source,
                     'shipping': product_shipping
                 })
         return (product)
